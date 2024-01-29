@@ -10,6 +10,7 @@ use App\Task\Infrastructure\Framework\Form\Model\TaskFormModel;
 use App\Task\Infrastructure\Framework\Form\TaskFormType;
 use App\TaskTime\ApplicationService\DTO\TaskTimeInitiatorRequest;
 use App\TaskTime\ApplicationService\DTO\TaskTimeStoperRequest;
+use App\TaskTime\ApplicationService\FinishedTaskFinder;
 use App\TaskTime\ApplicationService\TaskTimeInitiator;
 use App\TaskTime\ApplicationService\TaskTimeStoper;
 use App\TaskTime\ApplicationService\UnfinishedTaskFinder;
@@ -25,7 +26,8 @@ final class TaskTimeController extends SymfonyWebController
     public function __construct(
         private readonly UnfinishedTaskFinder $unfinishedTaskFinder,
         private readonly TaskTimeInitiator $taskTimeInitiator,
-        private readonly TaskTimeStoper $taskTimeStoper
+        private readonly TaskTimeStoper $taskTimeStoper,
+        private readonly FinishedTaskFinder $finishedTaskFinder
     ) {
     }
 
@@ -44,6 +46,8 @@ final class TaskTimeController extends SymfonyWebController
 
             $unfinishedTask = $response->taskTime;
 
+            $finishedTaskTimes = ($this->finishedTaskFinder)($model->taskName());
+
             $timeForm = $this->createForm(TimeFormType::class, new TimeFormModel());
             $timeForm->handleRequest($request);
 
@@ -54,6 +58,7 @@ final class TaskTimeController extends SymfonyWebController
                 'is_visible_time_form' => true,
                 'timeForm' => $timeForm->createView(),
                 'task_time' => $unfinishedTask,
+                'finished_task_times' => $finishedTaskTimes->items(),
             ]);
         }
 
@@ -62,25 +67,21 @@ final class TaskTimeController extends SymfonyWebController
 
             if ($timeForm->get('start')->isClicked()) {
                 $task = ($this->taskTimeInitiator)(new TaskTimeInitiatorRequest($taskName));
-
-                return $this->render('task_time/index.html.twig', [
-                    'form' => $taskForm->createView(),
-                    'is_visible_time_form' => true,
-                    'timeForm' => $timeForm->createView(),
-                    'task_time' => $task,
-                ]);
             }
 
             if ($timeForm->get('end')->isClicked()) {
                 $task = ($this->taskTimeStoper)(new TaskTimeStoperRequest($taskName));
-
-                return $this->render('task_time/index.html.twig', [
-                    'form' => $taskForm->createView(),
-                    'is_visible_time_form' => true,
-                    'timeForm' => $timeForm->createView(),
-                    'task_time' => $task,
-                ]);
             }
+
+            $finishedTaskTimes = ($this->finishedTaskFinder)($model->taskName());
+
+            return $this->render('task_time/index.html.twig', [
+                'form' => $taskForm->createView(),
+                'is_visible_time_form' => true,
+                'timeForm' => $timeForm->createView(),
+                'task_time' => $task,
+                'finished_task_times' => $finishedTaskTimes->items(),
+            ]);
         }
 
         return $this->render('task_time/index.html.twig', [
@@ -88,6 +89,7 @@ final class TaskTimeController extends SymfonyWebController
             'is_visible_time_form' => false,
             'timeForm' => null === $timeFormModel ? null : $timeForm->createView(),
             'task_time' => null,
+            'finished_task_times' => [],
         ]);
     }
 
