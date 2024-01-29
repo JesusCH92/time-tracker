@@ -84,7 +84,7 @@ final class TaskTimeController extends SymfonyWebController
         return $this->render('task_time/index.html.twig', [
             'form' => $taskForm->createView(),
             'is_visible_time_form' => false,
-            'timeForm' => null,
+            'timeForm' => null === $timeFormModel ? null : $timeForm->createView(),
             'task' => null,
         ]);
     }
