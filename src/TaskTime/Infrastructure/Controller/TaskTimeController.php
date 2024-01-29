@@ -40,12 +40,14 @@ final class TaskTimeController extends SymfonyWebController
         $timeForm->handleRequest($request);
 
         if ($taskForm->isSubmitted() && $taskForm->isValid()) {
-            $unfinishedTask = ($this->unfinishedTaskFinder)($model->taskName());
+            $response = ($this->unfinishedTaskFinder)($model->taskName());
+
+            $unfinishedTask = $response->taskTime;
 
             $timeForm = $this->createForm(TimeFormType::class, new TimeFormModel());
             $timeForm->handleRequest($request);
 
-            $this->saveTaskNameSessionVariable($request->getSession(), $model->taskName());
+            $this->saveTaskNameSessionVariable($request->getSession(), $response->task->name());
 
             return $this->render('task_time/index.html.twig', [
                 'form' => $taskForm->createView(),

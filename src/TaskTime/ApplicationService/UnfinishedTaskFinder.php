@@ -7,6 +7,7 @@ namespace App\TaskTime\ApplicationService;
 use App\Task\Domain\Entity\Task;
 use App\Task\Domain\Exception\NotFoundTask;
 use App\Task\Domain\Repository\TaskRepository;
+use App\TaskTime\ApplicationService\DTO\UnfinishedTaskFinderResponse;
 use App\TaskTime\Domain\Entity\TaskTime;
 use App\TaskTime\Domain\Repository\TaskTimeRepository;
 
@@ -18,10 +19,12 @@ final class UnfinishedTaskFinder
     ) {
     }
 
-    public function __invoke(string $taskName): ?TaskTime
+    public function __invoke(string $taskName): UnfinishedTaskFinderResponse
     {
         $task = $this->findTaskOrFail($taskName);
-        return $this->repository->findUnfinishedTask($task);
+        $taskTime = $this->repository->findUnfinishedTask($task);
+
+        return new UnfinishedTaskFinderResponse($task, $taskTime);
     }
 
     private function findTaskOrFail(string $taskName): Task
