@@ -22,7 +22,7 @@ class TaskTime
     #[ORM\Column(name: 'start_date', type: Types::DATE_IMMUTABLE, nullable: false)]
     private DateTimeImmutable $startDate;
     #[ORM\Column(name: 'end_date', type: Types::DATE_IMMUTABLE, nullable: true)]
-    private DateTimeImmutable $endDate;
+    private ?DateTimeImmutable $endDate = null;
 
     public function __construct(Task $task)
     {
