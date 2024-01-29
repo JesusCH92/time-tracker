@@ -11,7 +11,7 @@ class DummyTaskTimeRepository implements TaskTimeRepository
 {
     public function findUnfinishedTask(Task $task): ?TaskTime
     {
-        return null;
+        return new TaskTime(new Task('task'));
     }
 
     public function save(TaskTime $taskTime): void
