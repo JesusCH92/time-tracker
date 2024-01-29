@@ -14,7 +14,7 @@ class Task
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column(name: 'name', type: Types::STRING, length: 255, nullable: false)]
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 255, unique: true, nullable: false)]
     private ?string $name;
 
     public function __construct(string $name)
