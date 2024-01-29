@@ -15,9 +15,10 @@
             <th scope="row">{{ task_time.id() }}</th>
             <td>{{ task_time.startDate()|date('Y-m-d H:i:s') }}</td>
             <td>{{ task_time.endDate()|date('Y-m-d H:i:s') }}</td>
-            <td>{{ task_time.intervalTaskTime() }}</td>
+            <td>{{ task_time.intervalTaskTime() }} Hours</td>
         </tr>
     {% endfor %}
 
     </tbody>
 </table>
+<p>Total hours: {{ amount_hours_task_time }}</p>

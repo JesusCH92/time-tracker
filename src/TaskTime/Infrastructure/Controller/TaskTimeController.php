@@ -59,6 +59,7 @@ final class TaskTimeController extends SymfonyWebController
                 'timeForm' => $timeForm->createView(),
                 'task_time' => $unfinishedTask,
                 'finished_task_times' => $finishedTaskTimes->items(),
+                'amount_hours_task_time' => $finishedTaskTimes->totalTaskTime(),
             ]);
         }
 
@@ -73,7 +74,7 @@ final class TaskTimeController extends SymfonyWebController
                 $task = ($this->taskTimeStoper)(new TaskTimeStoperRequest($taskName));
             }
 
-            $finishedTaskTimes = ($this->finishedTaskFinder)($model->taskName());
+            $finishedTaskTimes = ($this->finishedTaskFinder)($taskName);
 
             return $this->render('task_time/index.html.twig', [
                 'form' => $taskForm->createView(),
@@ -81,6 +82,7 @@ final class TaskTimeController extends SymfonyWebController
                 'timeForm' => $timeForm->createView(),
                 'task_time' => $task,
                 'finished_task_times' => $finishedTaskTimes->items(),
+                'amount_hours_task_time' => $finishedTaskTimes->totalTaskTime(),
             ]);
         }
 
