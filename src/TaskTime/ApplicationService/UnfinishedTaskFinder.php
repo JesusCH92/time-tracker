@@ -32,7 +32,7 @@ final class UnfinishedTaskFinder
         $task = $this->taskRepository->findOneByName($taskName);
 
         if (null === $task) {
-            throw new NotFoundTask(sprintf('No encontramos la tarea con el identificador <%s>', $taskId));
+            throw new NotFoundTask(sprintf('No encontramos la tarea con el identificador <%s>', $taskName));
         }
 
         return $task;
