@@ -5,8 +5,11 @@ namespace App\Tests\TaskTime\TaskTimeInitiator;
 use App\Task\Domain\Exception\NotFoundTask;
 use App\TaskTime\ApplicationService\DTO\TaskTimeInitiatorRequest;
 use App\TaskTime\ApplicationService\TaskTimeInitiator;
+use App\TaskTime\Domain\Exception\CantCreateTaskTime;
+use App\Tests\TaskTime\DummyTaskRepository;
 use App\Tests\TaskTime\DummyTaskTimeRepository;
 use App\Tests\TaskTime\StubTaskRepository;
+use App\Tests\TaskTime\StubTaskTimeRepository;
 use PHPUnit\Framework\TestCase;
 
 class TaskTimeInitiatorTest extends TestCase
@@ -20,6 +23,19 @@ class TaskTimeInitiatorTest extends TestCase
         $this->expectException(NotFoundTask::class);
 
         $service = new TaskTimeInitiator(new StubTaskRepository(), new DummyTaskTimeRepository());
+
+        $service(new TaskTimeInitiatorRequest($taskName));
+    }
+
+    /**
+     * @test
+     * @dataProvider taskTimeInitiatorRequest
+     */
+    public function throwCantCreateTaskTimeIfExistUnfinishedTask(string $taskName)
+    {
+        $this->expectException(CantCreateTaskTime::class);
+
+        $service = new TaskTimeInitiator(new DummyTaskRepository(), new StubTaskTimeRepository());
 
         $service(new TaskTimeInitiatorRequest($taskName));
     }
