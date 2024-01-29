@@ -51,7 +51,7 @@ final class TaskTimeController extends SymfonyWebController
                 'form' => $taskForm->createView(),
                 'is_visible_time_form' => true,
                 'timeForm' => $timeForm->createView(),
-                'task' => $unfinishedTask,
+                'task_time' => $unfinishedTask,
             ]);
         }
 
@@ -65,7 +65,7 @@ final class TaskTimeController extends SymfonyWebController
                     'form' => $taskForm->createView(),
                     'is_visible_time_form' => true,
                     'timeForm' => $timeForm->createView(),
-                    'task' => $task,
+                    'task_time' => $task,
                 ]);
             }
 
@@ -76,7 +76,7 @@ final class TaskTimeController extends SymfonyWebController
                     'form' => $taskForm->createView(),
                     'is_visible_time_form' => true,
                     'timeForm' => $timeForm->createView(),
-                    'task' => $task,
+                    'task_time' => $task,
                 ]);
             }
         }
@@ -85,7 +85,7 @@ final class TaskTimeController extends SymfonyWebController
             'form' => $taskForm->createView(),
             'is_visible_time_form' => false,
             'timeForm' => null === $timeFormModel ? null : $timeForm->createView(),
-            'task' => null,
+            'task_time' => null,
         ]);
     }
 

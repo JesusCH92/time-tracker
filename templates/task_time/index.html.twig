@@ -3,24 +3,6 @@
 {% block title %}Hello TaskController!{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
-
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
-
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 
     <div class="example-wrapper">
         <div class="container mb-5">
@@ -29,24 +11,7 @@
 
         {% if true == is_visible_time_form %}
 
-
-            <form method="post">
-                {{ form_start(timeForm) }}
-
-                {# Renderizar errores del formulario #}
-                {{ form_errors(timeForm) }}
-
-                {# Renderizar el botón submit1 #}
-                {% if task is null %}
-                    {{ form_widget(timeForm.start) }}
-                    {{ form_widget(timeForm.end, {'attr': {'disabled': 'disabled'}}) }}
-                {% else %}
-                    {{ form_widget(timeForm.start, {'attr': {'disabled': task.isUnfinished() ? 'disabled' : null}}) }}
-                    {{ form_widget(timeForm.end) }}
-                {% endif %}
-
-                {{ form_end(timeForm) }}
-            </form>
+            {{ include('task_time/_form_time.html.twig') }}
 
         {% endif %}
     </div>

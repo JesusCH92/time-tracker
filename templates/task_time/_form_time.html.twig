@@ -1,0 +1,17 @@
+<form method="post">
+    {{ form_start(timeForm) }}
+
+    {# Renderizar errores del formulario #}
+    {{ form_errors(timeForm) }}
+
+    {# Renderizar el botón submit1 #}
+    {% if task_time is null %}
+        {{ form_widget(timeForm.start) }}
+        {{ form_widget(timeForm.end, {'attr': {'disabled': 'disabled'}}) }}
+    {% else %}
+        {{ form_widget(timeForm.start, {'attr': {'disabled': task_time.isUnfinished() ? 'disabled' : null}}) }}
+        {{ form_widget(timeForm.end) }}
+    {% endif %}
+
+    {{ form_end(timeForm) }}
+</form>
