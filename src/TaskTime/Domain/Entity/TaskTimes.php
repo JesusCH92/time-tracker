@@ -12,4 +12,15 @@ final class TaskTimes extends Collection
     {
         return TaskTime::class;
     }
+
+    public function totalTaskTime(): float|int
+    {
+        $total = 0;
+
+        foreach ($this->items() as $taskTime) {
+            $total+= $taskTime->intervalTaskTime();
+        }
+
+        return $total;
+    }
 }
