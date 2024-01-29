@@ -15,6 +15,6 @@ final class Tasks extends Collection
 
     public function mappingDropdown(): array
     {
-        return array_map(fn(Task $task) => ['id' => $task->id(), 'text' => $task->name()], $this->items());
+        return array_map(fn(Task $task) => ['id' => $task->name(), 'text' => $task->name()], $this->items());
     }
 }
