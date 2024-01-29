@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\TaskTime\Infrastructure\Controller;
 
+use App\Common\Domain\Constant\SessionVariable;
 use App\Common\Infrastructure\Framework\SymfonyWebController;
 use App\Task\Infrastructure\Framework\Form\Model\TaskFormModel;
 use App\Task\Infrastructure\Framework\Form\TaskFormType;
@@ -16,6 +17,7 @@ use App\TaskTime\Infrastructure\Framework\Form\Model\TimeFormModel;
 use App\TaskTime\Infrastructure\Framework\Form\TimeFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class TaskTimeController extends SymfonyWebController
@@ -30,7 +32,7 @@ final class TaskTimeController extends SymfonyWebController
     #[Route('/', name: 'app_task_time')]
     public function index(?TimeFormModel $timeFormModel, Request $request): Response
     {
-        $model = new TaskFormModel();
+        $model    = new TaskFormModel();
         $taskForm = $this->createForm(TaskFormType::class, $model);
         $taskForm->handleRequest($request);
 
@@ -39,6 +41,11 @@ final class TaskTimeController extends SymfonyWebController
 
         if ($taskForm->isSubmitted() && $taskForm->isValid()) {
             $unfinishedTask = ($this->unfinishedTaskFinder)($model->taskName());
+
+            $timeForm = $this->createForm(TimeFormType::class, new TimeFormModel());
+            $timeForm->handleRequest($request);
+
+            $this->saveTaskNameSessionVariable($request->getSession(), $model->taskName());
 
             return $this->render('task_time/index.html.twig', [
                 'form' => $taskForm->createView(),
@@ -50,7 +57,9 @@ final class TaskTimeController extends SymfonyWebController
 
         if ($timeForm->isSubmitted() && $timeForm->isValid()) {
             if ($timeForm->get('start')->isClicked()) {
-                $task = ($this->taskTimeInitiator)(new TaskTimeInitiatorRequest($model->taskName()));
+                $taskName = $request->getSession()->get(SessionVariable::TASK_NAME);
+
+                $task = ($this->taskTimeInitiator)(new TaskTimeInitiatorRequest($taskName));
 
                 return $this->render('task_time/index.html.twig', [
                     'form' => $taskForm->createView(),
@@ -78,5 +87,10 @@ final class TaskTimeController extends SymfonyWebController
             'timeForm' => null,
             'task' => null,
         ]);
+    }
+
+    private function saveTaskNameSessionVariable(Session $session, string $taskName): void
+    {
+        $session->set(SessionVariable::TASK_NAME, $taskName);
     }
 }
