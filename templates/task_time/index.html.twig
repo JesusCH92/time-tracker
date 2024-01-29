@@ -21,7 +21,7 @@
             {{ form_start(form, {attr: { novalidate: 'novalidate', class: 'mx-3', id: 'task__form' }}) }}
 
             <div class="row pt-2 pb-1">
-                <div class="form-group col-md-8">
+                <div class="col-md-8">
                     <label class="form-label fw-bold">Task</label>
                     {{ form_widget(form.taskName) }}
                     {{ form_errors(form.taskName) }}
