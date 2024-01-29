@@ -14,11 +14,28 @@
     </div>
 
     <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
-
-
         <div class="container mb-5">
             {{ include('task_time/_form_task.html.twig') }}
         </div>
+
+        {% if true == is_visible_time_form %}
+
+
+            <form method="post">
+                {{ form_start(timeForm) }}
+
+                {# Renderizar errores del formulario #}
+                {{ form_errors(timeForm) }}
+
+                {# Renderizar el botón submit1 #}
+                {{ form_widget(timeForm.start, {'attr': {'disabled': task.isUnfinished ? 'disabled' : null}}) }}
+
+                {# Renderizar el botón submit2 #}
+                {{ form_widget(timeForm.end) }}
+
+                {{ form_end(timeForm) }}
+            </form>
+
+        {% endif %}
     </div>
 {% endblock %}
