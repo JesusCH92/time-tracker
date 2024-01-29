@@ -54,4 +54,9 @@ class TaskTime
     {
         return $this->endDate() === null;
     }
+
+    public function finish(): void
+    {
+        $this->endDate = new DateTimeImmutable();
+    }
 }
