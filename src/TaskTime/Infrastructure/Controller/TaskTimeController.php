@@ -80,7 +80,7 @@ final class TaskTimeController extends SymfonyWebController
                 'form' => $taskForm->createView(),
                 'is_visible_time_form' => true,
                 'timeForm' => $timeForm->createView(),
-                'task_time' => $task,
+                'task_time' => $timeForm->get('end')->isClicked() ? null : $task,
                 'finished_task_times' => $finishedTaskTimes->items(),
                 'amount_hours_task_time' => $finishedTaskTimes->totalTaskTime(),
             ]);
