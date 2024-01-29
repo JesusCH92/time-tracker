@@ -26,6 +26,10 @@ class TaskTimeStoperTest extends TestCase
         $service(new TaskTimeStoperRequest($taskName));
     }
 
+    /**
+     * @test
+     * @dataProvider taskTimeStoperRequest
+     */
     public function throwNotFoundTaskTimeIfTaskTimeIsNotStarted(string $taskName)
     {
         $this->expectException(NotFoundTaskTime::class);
@@ -33,6 +37,20 @@ class TaskTimeStoperTest extends TestCase
         $service = new TaskTimeStoper(new DummyTaskRepository(), new StubTaskTimeRepository());
 
         $service(new TaskTimeStoperRequest($taskName));
+    }
+
+    /**
+     * @test
+     * @dataProvider taskTimeStoperRequest
+     */
+    public function shouldFinishedTaskTime(string $taskName)
+    {
+        $spy = new SpyTaskTimeRepository();
+        $service = new TaskTimeStoper(new DummyTaskRepository(), $spy);
+
+        $service(new TaskTimeStoperRequest($taskName));
+
+        $this->assertTrue($spy->verify());
     }
 
     public function taskTimeStoperRequest(): array
