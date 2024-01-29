@@ -42,7 +42,7 @@ class TaskTimeStoperCommand extends Command
             return Command::FAILURE;
         }
 
-        $io->success('Se inicio la tarea.');
+        $io->success('Se paro la tarea.');
 
         return Command::SUCCESS;
 
