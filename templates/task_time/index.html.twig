@@ -5,14 +5,16 @@
 {% block body %}
 
     <div class="example-wrapper">
-        <div class="container mb-5">
+        <div class="container border__container padding__container mb-5">
             {{ include('task_time/_form_task.html.twig') }}
         </div>
 
         {% if true == is_visible_time_form %}
 
-            {{ include('task_time/_form_time.html.twig') }}
-            {{ include('task_time/_table_finished_task.html.twig') }}
+            <div class="container border__container padding__container mb-5">
+                {{ include('task_time/_form_time.html.twig') }}
+                {{ include('task_time/_table_finished_task.html.twig') }}
+            </div>
 
         {% endif %}
     </div>

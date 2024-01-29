@@ -1,14 +1,14 @@
 {{ form_start(form, {attr: { novalidate: 'novalidate', class: 'mx-3', id: 'task__form' }}) }}
 
 <div class="row pt-2 pb-1">
-    <div class="col-md-8">
-        <label class="form-label fw-bold">Task</label>
+    <div class="form-group col-md-12">
+        <label class="form-label fw-bold">Task:</label>
         {{ form_widget(form.taskName) }}
         {{ form_errors(form.taskName) }}
     </div>
 </div>
 
-<div>
+<div class="btn-toolbar justify-content-end mt-4">
     <button type="submit" class="form-control btn btn-primary">Buscar</button>
 </div>
 
