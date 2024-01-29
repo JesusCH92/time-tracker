@@ -9,13 +9,13 @@
     </thead>
     <tbody>
 
-    {% for task_times in task_time %}
+    {% for task_time in finished_task_times %}
 
         <tr>
             <th scope="row">{{ task_time.id() }}</th>
             <td>{{ task_time.startDate()|date('Y-m-d H:i:s') }}</td>
             <td>{{ task_time.endDate()|date('Y-m-d H:i:s') }}</td>
-            <td>@mdo</td>
+            <td>{{ task_time.intervalTaskTime() }}</td>
         </tr>
     {% endfor %}
 
