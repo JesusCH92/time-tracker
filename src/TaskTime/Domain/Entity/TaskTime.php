@@ -19,9 +19,9 @@ class TaskTime
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(name: 'task_id', nullable: false)]
     private Task $task;
-    #[ORM\Column(name: 'start_date', type: Types::DATE_IMMUTABLE, nullable: false)]
+    #[ORM\Column(name: 'start_date', type: Types::DATETIME_IMMUTABLE, nullable: false)]
     private DateTimeImmutable $startDate;
-    #[ORM\Column(name: 'end_date', type: Types::DATE_IMMUTABLE, nullable: true)]
+    #[ORM\Column(name: 'end_date', type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $endDate = null;
 
     public function __construct(Task $task)
