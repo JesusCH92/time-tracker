@@ -5,6 +5,8 @@ namespace App\Tests\TaskTime\TaskTimeStoper;
 use App\Task\Domain\Exception\NotFoundTask;
 use App\TaskTime\ApplicationService\DTO\TaskTimeStoperRequest;
 use App\TaskTime\ApplicationService\TaskTimeStoper;
+use App\TaskTime\Domain\Exception\NotFoundTaskTime;
+use App\Tests\TaskTime\DummyTaskRepository;
 use App\Tests\TaskTime\DummyTaskTimeRepository;
 use App\Tests\TaskTime\StubTaskRepository;
 use PHPUnit\Framework\TestCase;
@@ -20,6 +22,15 @@ class TaskTimeStoperTest extends TestCase
         $this->expectException(NotFoundTask::class);
 
         $service = new TaskTimeStoper(new StubTaskRepository(), new DummyTaskTimeRepository());
+
+        $service(new TaskTimeStoperRequest($taskName));
+    }
+
+    public function throwNotFoundTaskTimeIfTaskTimeIsNotStarted(string $taskName)
+    {
+        $this->expectException(NotFoundTaskTime::class);
+
+        $service = new TaskTimeStoper(new DummyTaskRepository(), new StubTaskTimeRepository());
 
         $service(new TaskTimeStoperRequest($taskName));
     }
