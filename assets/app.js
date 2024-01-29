@@ -10,5 +10,13 @@ import './styles/app.scss';
 
 require('bootstrap');
 window.$ = window.jQuery = require('jquery');
+require('select2');
+
+import {renderSelect2} from "./js/utils/select2Module";
 
 console.log('hola mundo');
+
+const $taskNameSelect = $('#task_form_taskName');
+const $autocompleteUrl = $taskNameSelect.data('autocomplete-url');
+
+renderSelect2({select: $taskNameSelect, url: $autocompleteUrl});
