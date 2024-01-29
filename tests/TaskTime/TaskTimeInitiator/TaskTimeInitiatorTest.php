@@ -40,6 +40,21 @@ class TaskTimeInitiatorTest extends TestCase
         $service(new TaskTimeInitiatorRequest($taskName));
     }
 
+    /**
+     * @test
+     * @dataProvider taskTimeInitiatorRequest
+     */
+    public function shouldCreateTaskTime(string $taskName)
+    {
+        $spy = new SpyTaskTimeRepository();
+
+        $service = new TaskTimeInitiator(new DummyTaskRepository(), $spy);
+
+        $service(new TaskTimeInitiatorRequest($taskName));
+
+        $this->assertTrue($spy->verify());
+    }
+
     public function taskTimeInitiatorRequest(): array
     {
         return [
