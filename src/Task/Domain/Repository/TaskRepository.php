@@ -12,4 +12,6 @@ interface TaskRepository
     public function findById(int $taskId): ?Task;
 
     public function findAll(string $taskName): Tasks;
+
+    public function findOneByName(string $name): ?Task;
 }

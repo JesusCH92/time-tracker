@@ -29,4 +29,9 @@ final class DoctrineTaskRepository extends DoctrineRepository implements TaskRep
 
         return new Tasks($collection);
     }
+
+    public function findOneByName(string $name): ?Task
+    {
+        return $this->repository(Task::class)->findOneBy(['name' => $name]);
+    }
 }
