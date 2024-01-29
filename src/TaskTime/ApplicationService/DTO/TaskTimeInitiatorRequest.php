@@ -6,7 +6,7 @@ namespace App\TaskTime\ApplicationService\DTO;
 
 readonly class TaskTimeInitiatorRequest
 {
-    public function __construct(public int $taskId)
+    public function __construct(public string $taskName)
     {
     }
 }

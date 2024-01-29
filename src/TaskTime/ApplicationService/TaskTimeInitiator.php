@@ -9,6 +9,7 @@ use App\Task\Domain\Exception\NotFoundTask;
 use App\Task\Domain\Repository\TaskRepository;
 use App\TaskTime\ApplicationService\DTO\TaskTimeInitiatorRequest;
 use App\TaskTime\Domain\Entity\TaskTime;
+use App\TaskTime\Domain\Exception\CantCreateTaskTime;
 use App\TaskTime\Domain\Repository\TaskTimeRepository;
 
 final class TaskTimeInitiator
@@ -21,26 +22,34 @@ final class TaskTimeInitiator
 
     public function __invoke(TaskTimeInitiatorRequest $request): TaskTime
     {
-        $task                    = $this->findTaskOrFail($request->taskId);
-        $unfinishedTaskTimeExist = $this->repository->findUnfinishedTask($task);
+        $task = $this->findTaskOrFail($request->taskName);
 
-        $taskTime = $unfinishedTaskTimeExist ?? new TaskTime($task);
+        $this->failIfUnfinishedTaskExist($task);
 
-        if (null === $unfinishedTaskTimeExist) {
-            $this->repository->save($taskTime);
-        }
+        $taskTime = new TaskTime($task);
+
+        $this->repository->save($taskTime);
 
         return $taskTime;
     }
 
-    private function findTaskOrFail(int $taskId): Task
+    private function findTaskOrFail(string $taskName): Task
     {
-        $task = $this->taskRepository->findById($taskId);
+        $task = $this->taskRepository->findOneByName($taskName);
 
         if (null === $task) {
-            throw new NotFoundTask(sprintf('No encontramos la tarea con el identificador <%s>', $taskId));
+            throw new NotFoundTask(sprintf('No encontramos la tarea con el nombre <%s>', $taskName));
         }
 
         return $task;
+    }
+
+    private function failIfUnfinishedTaskExist(Task $task): void
+    {
+        $unfinishedTaskTime = $this->repository->findUnfinishedTask($task);
+
+        if (null !== $unfinishedTaskTime) {
+            throw new CantCreateTaskTime('No se puede inicializar una tarea si aun no se a finalizado la anterior');
+        }
     }
 }
