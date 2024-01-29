@@ -8,3 +8,9 @@ controllers:
 app_find_task:
     path: /task
     controller: App\Task\Infrastructure\Controller\TaskController::findTask
+
+# TASKTIME
+app_task_time:
+    path: /
+    controller: App\TaskTime\Infrastructure\Controller\TaskTimeController::index
+
