@@ -49,4 +49,9 @@ class TaskTime
     {
         return $this->endDate;
     }
+
+    public function isUnfinished(): bool
+    {
+        return $this->endDate() === null;
+    }
 }
