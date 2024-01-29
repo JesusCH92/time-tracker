@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class TaskFormModel
 {
     #[Assert\NotBlank]
-    private string $taskName;
+    private $taskName;
 
     public function taskName()
     {
