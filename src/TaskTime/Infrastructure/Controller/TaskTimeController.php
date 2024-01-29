@@ -58,9 +58,9 @@ final class TaskTimeController extends SymfonyWebController
         }
 
         if ($timeForm->isSubmitted() && $timeForm->isValid()) {
-            if ($timeForm->get('start')->isClicked()) {
-                $taskName = $request->getSession()->get(SessionVariable::TASK_NAME);
+            $taskName = $request->getSession()->get(SessionVariable::TASK_NAME);
 
+            if ($timeForm->get('start')->isClicked()) {
                 $task = ($this->taskTimeInitiator)(new TaskTimeInitiatorRequest($taskName));
 
                 return $this->render('task_time/index.html.twig', [
@@ -72,7 +72,7 @@ final class TaskTimeController extends SymfonyWebController
             }
 
             if ($timeForm->get('end')->isClicked()) {
-                $task = ($this->taskTimeStoper)(new TaskTimeStoperRequest($model->taskName()));
+                $task = ($this->taskTimeStoper)(new TaskTimeStoperRequest($taskName));
 
                 return $this->render('task_time/index.html.twig', [
                     'form' => $taskForm->createView(),
