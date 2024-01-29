@@ -29,8 +29,8 @@ class TaskFormType extends AbstractType
             'choices' => []
         ]);
 
-        $formModifier = function (FormInterface $form, ?array $taskName, array $options) {
-            $choices = null === $taskName ? [] : $taskName;
+        $formModifier = function (FormInterface $form, ?string $taskName, array $options) {
+            $choices = null === $taskName ? [] : [$taskName => $taskName];
             $form->add('taskName', Select2FormType::class, [
                 'required' => true,
                 'multiple' => false,
