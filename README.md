@@ -1,6 +1,6 @@
 # TIME TRACKER
 
-
+Stack tecnologico: PHP(Symfony), MySQL, Nginx
 
 ## Entorno Dockerizado
 
