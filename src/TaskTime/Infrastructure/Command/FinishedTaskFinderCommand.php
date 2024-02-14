@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app.finished_task_times',
-    description: 'Inicio de la tarea',
+    description: 'Muestra el resumen de las tareas que han sido acabadas',
 )]
 class FinishedTaskFinderCommand extends Command
 {
